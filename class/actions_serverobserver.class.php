@@ -70,7 +70,9 @@ class ActionsserverObserver
 			$langs->load('serverobserver@serverobserver');
 		  
 		  	echo '<tr><td colspan="'.($parameters['colspanvalue']+1).'">
-		  		<a href="'.dol_buildpath('/serverobserver/show.php?id='.$object->id, 1).'" target="_blank">'.$langs->trans('ServerObserverShowData').'</a>	
+		  		<a href="'.dol_buildpath('/serverobserver/show.php?id='.$object->id, 1).'" target="_blank">'.$langs->trans('ServerObserverShowData').'</a>
+				-		  			
+		  		<a href="'.dirname($object->array_options['options_serverobserverchecker']).'/switch-user.php" target="_blank">'.$langs->trans('SwitchUserOnInstance').'</a>
 		  	</td></td>';
 		  
 		}

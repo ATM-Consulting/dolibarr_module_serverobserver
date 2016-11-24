@@ -15,7 +15,6 @@
 		
 		echo '<a href = "'.$TData->dolibarr->path->http.'" target="_blank">'.$TData->dolibarr->path->http.'</a>';
 		
-		
 		foreach($TData as $title=>&$subdata) {
 			
 			echo '<table class="border" width="100%">';
