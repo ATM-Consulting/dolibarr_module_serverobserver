@@ -28,7 +28,7 @@
 	<form action="?" name="f1" >
 		<input type="hidden" name="action" value="switch" />
 	<?php
-	
+	$form=new Form($db);
 	$form->select_users();
 	
 	?>
