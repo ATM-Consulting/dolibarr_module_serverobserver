@@ -33,6 +33,7 @@
 	$result->user=new stdClass;
 	$result->user->all = _nb_user();
 	$result->user->active = _nb_user(true);
+	$result->user->date_last_login = _last_login() ;
 	
 	$result->module = new stdClass;
 	
@@ -71,6 +72,20 @@ function _dir_size($dir) {
     pclose ( $io );
 	
 	return (int)$size;
+}
+
+function _last_login() {
+	global $db;
+
+        $sql = "SELECT MAX(datelastlogin) as datelastlogin FROM ".MAIN_DB_PREFIX."user WHERE 1 ";
+        $sql.=" AND statut=1 AND rowid>1"; // pas l'admin
+
+        $res = $db->query($sql);
+
+        $obj = $db->fetch_object($res);
+
+        return (int)$obj->datelastlogin;
+
 }
 	
 function _nb_user($just_actif = false) {

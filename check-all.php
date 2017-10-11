@@ -42,7 +42,7 @@
 	$(document).ready(function() {
 		checkAll();
 		
-		setInterval('checkAll()',30000);
+		setInterval('checkAll()',60000);
 		
 	});
 
@@ -69,7 +69,13 @@
 					console.log(data,$item);
 					$item.find('td[rel=status]').html('<?php echo img_picto('','on')?>');
 					$item.find('td[rel=version]').html('<a href="'+data.dolibarr.path.http+'" target="_blank">'+data.dolibarr.version+'</a>');
-					$item.find('td[rel=user]').html('<?php echo img_picto('','object_user')?> '+ data.user.active);
+					$item.find('td[rel=user]').html('<?php echo img_picto('','object_user')?> '
+						+ data.user.active);
+
+					if(data.user.date_last_login) {
+						var dateLL = new Date(data.user.date_last_login);
+						$item.find('td[rel=user]>img').attr('title', dateLL.toLocateDateString());
+					}
 
 					var datasize = data.dolibarr.data.size; var postsize = 'M';
 					if(datasize>1024) { 
@@ -81,7 +87,7 @@
 
 					$item.find('td[rel=module]>img').attr('title', data.module.join(', '));
 
-					$item.find('td[rel=module]>img').tipTip({maxWidth: "700px", edgeOffset: 10, delay: 50, fadeIn: 50, fadeOut: 50});
+					$item.find('td[rel=module]>img, td[rel=user]>img').tipTip({maxWidth: "700px", edgeOffset: 10, delay: 50, fadeIn: 50, fadeOut: 50});
 				}
 				else {
 					console.log($item);
