@@ -9,3 +9,5 @@ serverObserverAbout = A propos du module serverObserver
 CheckerURL=Url de l'observateur (.../custom/serverobserver/_instance/check.php)
 ServerObserverShowData=Voir les informations de l'installation
 SwitchUserOnInstance=Usurper une identité sur son instance
+
+ServerObserverCheckAll=Etat des instances

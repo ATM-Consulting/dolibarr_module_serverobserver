@@ -70,7 +70,11 @@
 					$item.find('td[rel=status]').html('<?php echo img_picto('','on')?>');
 					$item.find('td[rel=version]').html('<a href="'+data.dolibarr.path.http+'" target="_blank">'+data.dolibarr.version+'</a>');
 					$item.find('td[rel=user]').html('<?php echo img_picto('','object_user')?> '+ data.user.active);
-					$item.find('td[rel=document]').html(data.dolibarr.data.size+'M');
+
+					var datasize = data.dolibarr.data.size; var postsize = 'M';
+					if(datasize>1024) { datasize = Math.round(datasize/1024); postsize='G'; }
+
+					$item.find('td[rel=document]').html(datasize + postsize);
 
 					$item.find('td[rel=module]>img').attr('title', data.module.join(', '));
 
