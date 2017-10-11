@@ -13,7 +13,7 @@ class ServerObserver {
 				ORDER BY s.nom");
 		
 		$Tab=array();
-		while($obj->fetch_object($res)) {
+		while($obj=$db->fetch_object($res)) {
 			
 			$Tab[] = $obj->rowid;
 			

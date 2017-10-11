@@ -9,8 +9,13 @@
 	
 	if($societe->fetch(GETPOST('id'))>0) {
 		
-		dol_banner_tab($societe, 'socid', '', ($user->societe_id?0:1), 'rowid', 'nom');
-		
+		if(function_exists('dol_banner_tab')) {
+			dol_banner_tab($societe, 'socid', '', ($user->societe_id?0:1), 'rowid', 'nom');
+		}
+		else{
+			echo $societe->getNomUrl(1).'<br />';
+		}
+
 		$TData = json_decode(file_get_contents($societe->array_options['options_serverobserverchecker']));
 		
 		echo '<a href = "'.$TData->dolibarr->path->http.'" target="_blank">'.$TData->dolibarr->path->http.'</a>';
