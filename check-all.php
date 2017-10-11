@@ -72,7 +72,10 @@
 					$item.find('td[rel=user]').html('<?php echo img_picto('','object_user')?> '+ data.user.active);
 
 					var datasize = data.dolibarr.data.size; var postsize = 'M';
-					if(datasize>1024) { datasize = Math.round(datasize/1024); postsize='G'; }
+					if(datasize>1024) { 
+						datasize = Math.round(datasize/1024); postsize='G'; 
+						if(datasize>2) postsize+= '<?php echo img_warning()?>';
+					}
 
 					$item.find('td[rel=document]').html(datasize + postsize);
 
