@@ -66,7 +66,7 @@
 				$item.attr("ok",data.ok);
 				
 				if(data.ok) {
-					console.log(data,$item);
+		//			console.log(data,$item);
 					$item.find('td[rel=status]').html('<?php echo img_picto('','on')?>');
 					$item.find('td[rel=version]').html('<a href="'+data.dolibarr.path.http+'" target="_blank">'+data.dolibarr.version+'</a>');
 					$item.find('td[rel=user]').html('<?php echo img_picto('','object_user')?> '
@@ -74,7 +74,8 @@
 
 					if(data.user.date_last_login) {
 						var dateLL = new Date(data.user.date_last_login);
-						$item.find('td[rel=user]>img').attr('title', dateLL.toLocateDateString());
+//console.log(dateLL);
+						$item.find('td[rel=user]>img').attr('title', dateLL.toLocaleString());
 					}
 
 					var datasize = data.dolibarr.data.size; var postsize = 'M';
