@@ -84,7 +84,7 @@ function _last_login() {
 
         $obj = $db->fetch_object($res);
 
-        return (int)$obj->datelastlogin;
+        return $obj->datelastlogin;
 
 }
 	
