@@ -11,6 +11,7 @@
 	echo '<table id="table-check-all" class="border" width="100%">
 			<tr class="liste_titre">
 				<td>'.$langs->trans('Company').'</td>
+				<td>'.$langs->trans('Server').'</td>
 				<td>'.$langs->trans('Status').'</td>
 				<td>'.$langs->trans('Version').'</td>
 				<td>'.$langs->trans('DocumentSize').'</td>
@@ -23,8 +24,23 @@
 		$societe = new Societe($db);
 		$societe->fetch($fk_soc);
 		
+		$data = parse_url($societe->array_options['options_serverobserverchecker']);
+		
+		if(strpos($data['host'],'atm-consulting')!==false && strpos($data['host'],'srv')!==false) {
+			list($dummy, $srv) = explode('.', $data['host']) ;
+		}
+		else if(strpos($data['host'],'atm-consulting')!==false) {
+			$srv='srv1?';
+		}
+		else {
+			$srv = $data['host'];
+		}
+
+		if(!empty($data['port']) && $data['port']!=80) $srv.=':'.$data['port'];
+//var_dump($srv, $data);exit;
 		echo '<tr fk_soc="'.$societe->id.'">
 				<td>'.$societe->getNomUrl(1).'</td>
+				<td>'.$srv.'</td>
 				<td rel="status">...</td>
 				<td rel="version">...</td>
 				<td rel="document">...</td>
@@ -42,17 +58,20 @@
 	$(document).ready(function() {
 		checkAll();
 		
-		setInterval('checkAll()',60000);
+//		setInterval('checkAll()',600000);
 		
 	});
 
-	function checkAll() {
+	function sleep(miliseconds) {
+	   var currentTime = new Date().getTime();
 
-		$('tr[fk_soc]').each(function(i,item) {
-			
-			$item = $(item);
-			var fk_soc = $item.attr('fk_soc');
-			
+		while (currentTime + miliseconds >= new Date().getTime()) {
+	   		null;   
+		}
+	}
+
+	function checkOne(fk_soc) {
+console.log('checkOne',fk_soc);
 			$.ajax({
 				url:"<?php echo dol_buildpath('/serverobserver/script/interface.php',1)?>"
 				,data:{
@@ -60,7 +79,12 @@
 					,get:"status"
 				}
 				,dataType:"json"
-			}).done(function(data) {
+				,timeout: 10000
+			})
+			.fail(function() {
+				window.setTimeout(checkOne(fk_soc), 1000);
+			})
+			.done(function(data) {
 
 				$item = $('tr[fk_soc='+data.fk_soc+']');
 				$item.attr("ok",data.ok);
@@ -99,6 +123,21 @@
 				sortTable($("table#table-check-all"));
 				
 			});
+
+	}
+
+	function checkAll() {
+
+		var timeDelai = 500;
+
+		$('tr[fk_soc]').each(function(i,item) {
+			
+			$item = $(item);
+			var fk_soc = $item.attr('fk_soc');
+
+			timeDelai+=500;
+
+			window.setTimeout(checkOne(fk_soc), timeDelai);
 			
 		});
 	}

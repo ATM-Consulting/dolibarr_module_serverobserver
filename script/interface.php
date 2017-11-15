@@ -1,6 +1,7 @@
 <?php
 
 	require '../config.php';
+	ini_set('default_socket_timeout', 5);
 
 	$get=GETPOST('get');
 	
