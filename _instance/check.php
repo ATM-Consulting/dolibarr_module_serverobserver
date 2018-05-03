@@ -39,6 +39,7 @@
 	
 	$result->module = _module_active();
 	
+	$result->server_info = _getServerInfo();
 	//var_dump($result);
 	
 	echo json_encode($result);
@@ -105,3 +106,34 @@ function _nb_user($just_actif = false) {
 	
 	
 }	
+
+
+function _getServerInfo()
+{
+        $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
+        $base = 1024;
+
+        $bytes_total = disk_total_space("/");
+        $bytes_left = disk_free_space("/");
+        $bytes_used = $bytes_total - $bytes_left;
+
+        $class = min((int)log($bytes_total , $base) , count($si_prefix) - 1);
+        $espace_total = sprintf('%1.2f' , $bytes_total / pow($base,$class)) . ' ' . $si_prefix[$class];
+
+        $class = min((int)log($bytes_left , $base) , count($si_prefix) - 1);
+        $espace_left = sprintf('%1.2f' , $bytes_left / pow($base,$class)) . ' ' . $si_prefix[$class];
+
+        $class = min((int)log($bytes_used , $base) , count($si_prefix) - 1);
+        $espace_used = sprintf('%1.2f' , $bytes_used / pow($base,$class)) . ' ' . $si_prefix[$class];
+
+        $percent_used = sprintf('%1.2f %%' , $bytes_used * 100 / $bytes_total, true);
+
+        return array(
+                'espace_total' => $espace_total
+                ,'espace_restant' => $espace_left
+                ,'espace_used' => $espace_used
+                ,'percent_used' => $percent_used
+        );
+
+}
+
