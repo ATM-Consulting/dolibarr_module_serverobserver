@@ -24,6 +24,10 @@
 	$result->dolibarr->data->path = DOL_DATA_ROOT;
 	$result->dolibarr->data->size = _dir_size(DOL_DATA_ROOT);
 	
+	$result->dolibarr->htdocs=new stdClass;
+	$result->dolibarr->htdocs->path = DOL_DOCUMENT_ROOT;
+	$result->dolibarr->htdocs->size = _dir_size(DOL_DOCUMENT_ROOT);
+	
 	$result->db=new stdClass;
 	$result->db->host = $dolibarr_main_db_host;
 	$result->db->name = $dolibarr_main_db_name;
