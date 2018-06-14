@@ -121,8 +121,8 @@ function _getServerInfo()
         $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
         $base = 1024;
 
-        $bytes_total = disk_total_space("/var/www/client/");
-        $bytes_left = disk_free_space("/var/www/client/");
+        $bytes_total = disk_total_space("/home/client/");
+        $bytes_left = disk_free_space("/home/client/");
         $bytes_used = $bytes_total - $bytes_left;
 
         $class = min((int)log($bytes_total , $base) , count($si_prefix) - 1);
