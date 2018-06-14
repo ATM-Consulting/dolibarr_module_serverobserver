@@ -17,8 +17,8 @@
 	
 	$result->dolibarr->path=new stdClass;
 	$result->dolibarr->path->http = dol_buildpath('/',2); 
-	$result->dolibarr->path->relative = dol_buildpath('/',1);
-	$result->dolibarr->path->absolute = dol_buildpath('/',0);
+	$result->dolibarr->path->relative = dol_buildpath('/var/www/client/',1);
+	$result->dolibarr->path->absolute = dol_buildpath('/var/www/client/',0);
 	
 	$result->dolibarr->data = new stdClass;
 	$result->dolibarr->data->path = DOL_DATA_ROOT;
@@ -121,8 +121,8 @@ function _getServerInfo()
         $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
         $base = 1024;
 
-        $bytes_total = disk_total_space("/");
-        $bytes_left = disk_free_space("/");
+        $bytes_total = disk_total_space("/var/www/client/");
+        $bytes_left = disk_free_space("/var/www/client/");
         $bytes_used = $bytes_total - $bytes_left;
 
         $class = min((int)log($bytes_total , $base) , count($si_prefix) - 1);
