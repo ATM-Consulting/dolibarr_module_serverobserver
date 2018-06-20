@@ -121,8 +121,10 @@ function _getServerInfo()
         $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
         $base = 1024;
 
-        $bytes_total = disk_total_space("/home/client/");
-        $bytes_left = disk_free_space("/home/client/");
+        $root = DOL_DOCUMENT_ROOT.'/../../../';
+
+        $bytes_total = disk_total_space($root);
+        $bytes_left = disk_free_space($root);
         $bytes_used = $bytes_total - $bytes_left;
 
         $class = min((int)log($bytes_total , $base) , count($si_prefix) - 1);
