@@ -1,3 +1,6 @@
-order allow,deny
-allow from all
-Satisfy any
+<Files check.php>
+	Satisfy any
+	Order Deny,Allow
+	Deny from all
+	Allow from 81.250.154.92
+</Files>
