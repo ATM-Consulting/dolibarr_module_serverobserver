@@ -2,5 +2,5 @@
 	Satisfy any
 	Order Deny,Allow
 	Deny from all
-	Allow from 81.250.154.92
+	Allow from 81.250.154.92 51.254.202.182
 </Files>
