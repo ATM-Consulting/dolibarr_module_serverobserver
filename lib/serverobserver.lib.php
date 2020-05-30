@@ -1,55 +1,61 @@
 <?php
-/* <one line to give the program's name and a brief idea of what it does.>
- * Copyright (C) 2015 ATM Consulting <support@atm-consulting.fr>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /**
- *	\file		lib/serverobserver.lib.php
- *	\ingroup	serverobserver
- *	\brief		This file is an example module library
- *				Put some comments here
+ * Get size of a directory on the server, in Mb
+ * @param $dir	Absolute path of the directory to scan
+ * @return int	Size of the diectory or -1 if $dir is not a directory
  */
+function getDirSize($dir) {
+	if(is_dir($dir)) {
+		$cmd = 'du -sm ' . $dir;
+		$res = shell_exec($cmd);
 
-function serverobserverAdminPrepareHead()
-{
-    global $langs, $conf;
+		return (int)$res;
+	}
 
-    $langs->load("serverobserver@serverobserver");
+	return -1;
+}
 
-    $h = 0;
-    $head = array();
+/**
+ * Get informations about disk space
+ * @param $dir		Directory to scan
+ * @return stdClass	Data about total space, used, left and percentages
+ */
+function getSystemSize($dir=__DIR__) {
+	$res = new stdClass();
+	$res->bytes_total = disk_total_space($dir);
+	$res->bytes_left = disk_free_space($dir);
+	$res->bytes_used = $res->bytes_total - $res->bytes_left;
+	$res->percent_used = round($res->bytes_used * 100 / $res->bytes_total);
+	$res->percent_left = 100 - $res->percent_used;
 
-    $head[$h][0] = dol_buildpath("/serverobserver/admin/serverobserver_setup.php", 1);
-    $head[$h][1] = $langs->trans("Parameters");
-    $head[$h][2] = 'settings';
-    $h++;
-    $head[$h][0] = dol_buildpath("/serverobserver/admin/serverobserver_about.php", 1);
-    $head[$h][1] = $langs->trans("About");
-    $head[$h][2] = 'about';
-    $h++;
+	return $res;
+}
 
-    // Show more tabs from modules
-    // Entries must be declared in modules descriptor with line
-    //$this->tabs = array(
-    //	'entity:+tabname:Title:@serverobserver:/serverobserver/mypage.php?id=__ID__'
-    //); // to add new tab
-    //$this->tabs = array(
-    //	'entity:-tabname:Title:@serverobserver:/serverobserver/mypage.php?id=__ID__'
-    //); // to remove a tab
-    complete_head_from_modules($conf, $langs, $object, $head, $h, 'serverobserver');
+/**
+ * Get PHP informations on the server
+ * @return stdClass	Data about PHP on the server
+ */
+function getPHPInfos() {
+	$cmd = 'php -v';
+	$res = shell_exec($cmd);
 
-    return $head;
+	$php = new stdClass();
+	$php->version = $res;
+
+	return $php;
+}
+
+/**
+ * Get MySQL informations on the server
+ * @return stdClass	Data about MySQL on the server
+ */
+function getMySQLInfos() {
+	$cmd = 'mysql --version';
+	$res = shell_exec($cmd);
+
+	$mysql = new stdClass();
+	$mysql->version = $res;
+
+	return $mysql;
 }
