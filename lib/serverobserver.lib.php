@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Get size of a directory on the server, in Mb
+ * Get size of a directory on the server, in bytes
  * @param $dir	Absolute path of the directory to scan
  * @return int	Size of the diectory or -1 if $dir is not a directory
  */
 function getDirSize($dir) {
 	if(is_dir($dir)) {
-		$cmd = 'du -sm ' . $dir;
+		$cmd = 'du -sb ' . $dir;
 		$res = shell_exec($cmd);
 
 		return (int)$res;
