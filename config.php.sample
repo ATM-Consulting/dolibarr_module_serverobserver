@@ -1,0 +1,7 @@
+<?php
+
+// Token of the webhost to secure access of the serverobserver scripts
+$token = '1234567890ABCDEF';
+
+// Path where the instances are installed on this webhost
+$path = '/path/to/directory/for/instances/';
