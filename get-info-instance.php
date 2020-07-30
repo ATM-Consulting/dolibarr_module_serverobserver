@@ -1,7 +1,8 @@
 <?php
 
 // Vérification paramètres
-if(!isset($_GET['token'])) exit('Missing token');
+if(!isset($_GET['hash'])) exit('Missing parameter');
+if(!isset($_GET['time'])) exit('Missing parameter');
 if(!isset($_GET['instance_name'])) exit('Missing instance name');
 
 // Inclusion fichier conf
@@ -9,8 +10,10 @@ $res = @include 'config.php';
 if(!$res) exit("Missing config file");
 
 // Vérification token
-$tokenToCheck = $_GET['token'];
-if($token != $tokenToCheck) exit('Invalid token');
+$hashToCheck = $_GET['hash'];
+$tokenTime = $_GET['time'];
+$hash = md5($token . $tokenTime);
+if($hash != $hashToCheck) exit('Invalid hash');
 
 // Vérification chemin instance
 $instance_name = $_GET['instance_name'];
@@ -24,7 +27,7 @@ include_once 'lib/serverobserver.lib.php';
 
 $instance = new stdClass;
 
-$instance->apiversion = '1.0';
+$instance->apiversion = '2.0';
 
 $instance->dolibarr = new stdClass;
 $instance->dolibarr->version = DOL_VERSION;

@@ -1,15 +1,18 @@
 <?php
 
 // Vérification paramètres
-if(!isset($_GET['token'])) exit("Missing token");
+if(!isset($_GET['hash'])) exit('Missing parameter');
+if(!isset($_GET['time'])) exit('Missing parameter');
 
 // Inclusion fichier conf
 $res = @include 'config.php';
 if(!$res) exit("Missing config file");
 
 // Vérification token
-$tokenToCheck = $_GET['token'];
-if($token != $tokenToCheck) exit('Invalid token');
+$hashToCheck = $_GET['hash'];
+$tokenTime = $_GET['time'];
+$hash = md5($token . $tokenTime);
+if($hash != $hashToCheck) exit('Invalid hash');
 
 // Récupération de la liste des instances
 $content = scandir($path);

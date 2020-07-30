@@ -59,3 +59,9 @@ function getMySQLInfos() {
 
 	return $mysql;
 }
+
+
+function selfUpdate() {
+	$cmd = 'git pull 2>&1';
+	return shell_exec($cmd);
+}

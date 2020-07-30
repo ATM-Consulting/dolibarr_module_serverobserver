@@ -15,10 +15,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'get-info-instance') {
 include_once 'lib/serverobserver.lib.php';
 
 $server = new stdClass();
-$server->apiversion = '1.0';
+$server->apiversion = '2.0';
 
 $server->space = getSystemSize();
 $server->php = getPHPInfos();
 $server->mysql = getMySQLInfos();
 
-print json_encode($server);
+print json_encode($server, JSON_PRETTY_PRINT);
